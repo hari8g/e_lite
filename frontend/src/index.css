@@ -1,0 +1,157 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+body {
+  @apply antialiased min-h-screen text-slate-800;
+  background: linear-gradient(180deg, #fafbfc 0%, #f1f5f9 100%);
+  background-attachment: fixed;
+}
+
+.leaflet-container {
+  @apply rounded-xl z-0 border border-slate-200/90 bg-slate-100/50;
+  font-family: inherit;
+  box-shadow: inset 0 1px 0 0 rgb(255 255 255 / 0.8);
+}
+
+/* Map pin: allow chip / live dot backgrounds */
+.elite-tw-marker {
+  background: transparent !important;
+  border: none !important;
+}
+.elite-tw-marker .elite-pin-base {
+  background: transparent !important;
+  border: none !important;
+}
+.elite-tw-marker-inner {
+  line-height: 0;
+}
+
+.elite-pin-lively {
+  position: relative;
+  overflow: visible !important;
+  line-height: 0;
+}
+.elite-pin-base {
+  display: block;
+  animation: elite-pin-breathe 2.4s ease-in-out infinite;
+}
+@keyframes elite-pin-breathe {
+  0%,
+  100% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+  50% {
+    transform: scale(1.04);
+    filter: brightness(1.06);
+  }
+}
+
+.elite-pin-chip {
+  position: absolute;
+  top: -3px;
+  right: -6px;
+  width: 15px;
+  height: 15px;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 5px rgba(15, 23, 42, 0.22);
+  border: 1.5px solid rgba(255, 255, 255, 0.85);
+  pointer-events: none;
+  animation: elite-chip-pop 1.5s ease-in-out infinite;
+}
+.elite-pin-chip--bolt img {
+  display: block;
+  filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.15));
+}
+@keyframes elite-chip-pop {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.12);
+  }
+}
+
+.elite-pin-live-dot {
+  position: absolute;
+  bottom: 2px;
+  left: -2px;
+  width: 9px;
+  height: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  animation: elite-dot-pulse 1.25s ease-in-out infinite;
+}
+@keyframes elite-dot-pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.65;
+    transform: scale(0.88);
+  }
+}
+
+.leaflet-marker-icon.elite-tw-marker {
+  margin-left: -13px !important;
+  margin-top: -32px !important;
+  overflow: visible !important;
+}
+
+/* Popup: don’t clip scroll; sensible width on narrow viewports */
+.elite-map-popup .leaflet-popup-content-wrapper {
+  border-radius: 16px;
+  overflow: visible;
+  max-width: min(92vw, 380px);
+  box-shadow:
+    0 4px 6px -1px rgb(15 23 42 / 0.06),
+    0 20px 50px -12px rgb(15 23 42 / 0.18);
+  border: 1px solid rgb(226 232 240 / 0.85);
+  background: linear-gradient(165deg, rgb(255 255 255 / 0.98) 0%, rgb(248 250 252) 100%);
+}
+
+.elite-map-popup .leaflet-popup-content {
+  margin: 0 !important;
+  width: auto !important;
+  min-width: 0;
+}
+
+.elite-map-popup .leaflet-popup-tip-container {
+  filter: drop-shadow(0 -1px 0 rgb(226 232 240 / 0.9));
+}
+
+.elite-popup-scroll {
+  max-height: min(82vh, 560px);
+  width: min(92vw, 360px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+@keyframes elite-bob {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(4px);
+  }
+}
+
+.elite-live-bob {
+  animation: elite-bob 1.35s ease-in-out infinite;
+}
