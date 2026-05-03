@@ -187,34 +187,32 @@ export function Dashboard() {
 
   const nothingVisible = !showMap && !showStrip && !showLedger;
 
+  const tierLabel = vis?.tier === "full" ? "FULL" : vis?.tier === "reduced" ? "REDUCED" : "MINIMAL";
+
   return (
-    <div className="space-y-6">
-      <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
-        <div>
-          <h1 className="font-display text-2xl md:text-[1.65rem] font-semibold text-slate-900 tracking-tight">
+    <div className="space-y-5">
+      <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4 lg:gap-6">
+        <div className="min-w-0">
+          <h1 className="font-display text-3xl md:text-[2rem] font-bold text-slate-900 tracking-tight leading-tight">
             Command center
           </h1>
-          <p className="text-slate-600 text-sm mt-1 max-w-2xl">
-            Live operations for electric 2W assets over GPS telematics. What you see here follows{" "}
-            <Link to="/config" className="text-teal-700 font-medium hover:underline">
-              fleet policy
-            </Link>
-            .
+          <p className="text-slate-600 text-sm md:text-[15px] mt-2 max-w-2xl leading-relaxed">
+            Live map, KPIs, and asset strip for GPS + CAN electric two-wheelers. Policy drives what operators see.
           </p>
         </div>
         {vis && (
-          <div className="flex flex-wrap items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2 shrink-0">
             <span
-              className={`inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs font-semibold uppercase tracking-wide ${tierStyles(vis.tier)}`}
+              className={`inline-flex items-center gap-1.5 rounded-md border px-3 py-2 text-[11px] font-bold uppercase tracking-[0.08em] ${tierStyles(vis.tier)}`}
             >
-              <Eye className="h-3.5 w-3.5" />
-              Visibility: {vis.tier}
+              <Eye className="h-3.5 w-3.5 shrink-0" />
+              Visibility: {tierLabel}
             </span>
             <Link
               to="/config"
-              className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs font-medium text-slate-700 shadow-sm hover:bg-slate-50"
+              className="inline-flex items-center gap-1.5 rounded-md border border-slate-300 bg-white px-3 py-2 text-[11px] font-bold uppercase tracking-[0.08em] text-slate-800 shadow-sm hover:bg-slate-50"
             >
-              <Settings2 className="h-3.5 w-3.5" />
+              <Settings2 className="h-3.5 w-3.5 shrink-0" />
               Edit policy
             </Link>
           </div>
@@ -222,36 +220,38 @@ export function Dashboard() {
       </div>
 
       {vis && (
-        <div
-          className={`rounded-xl border px-4 py-3 text-sm shadow-sm ${tierStyles(vis.tier)}`}
-        >
-          <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
-            <span className="font-semibold flex items-center gap-2">
-              <Radio className="h-4 w-4 opacity-80" />
+        <div className="rounded-lg border border-teal-200/80 bg-[#E6F4F1] px-4 py-3 text-sm text-teal-950 shadow-sm">
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
+            <Link
+              to="/config"
+              className="font-semibold text-teal-800 hover:text-teal-950 flex items-center gap-2 underline-offset-2 hover:underline"
+            >
+              <Radio className="h-4 w-4 shrink-0 opacity-90" />
               Fleet policy → command centre
-            </span>
-            <span className="text-xs opacity-90">
+            </Link>
+            <span className="hidden sm:inline text-teal-800/40">|</span>
+            <span className="text-xs font-medium text-teal-900/90">
               Map {showMap ? "on" : "off"} · Strip {showStrip ? "on" : "off"} · Ledger{" "}
               {showLedger ? "on" : "off"} · Immobilise UI {showImmobUi ? "on" : "off"}
             </span>
           </div>
-          <div className="mt-2 flex flex-wrap gap-2 text-[11px] font-medium">
-            <span className="rounded-md bg-white/70 border border-current/20 px-2 py-0.5">
+          <div className="mt-2.5 flex flex-wrap gap-2 text-[11px] font-semibold text-teal-900">
+            <span className="rounded-full bg-white/80 border border-teal-200/90 px-2.5 py-0.5 shadow-sm">
               GPS interval {vis.expectedPositionIntervalSec}s
             </span>
-            <span className="rounded-md bg-white/70 border border-current/20 px-2 py-0.5">
+            <span className="rounded-full bg-white/80 border border-teal-200/90 px-2.5 py-0.5 shadow-sm">
               Stale SLA {slaMin} min
             </span>
-            <span className="rounded-md bg-white/70 border border-current/20 px-2 py-0.5">
+            <span className="rounded-full bg-white/80 border border-teal-200/90 px-2.5 py-0.5 shadow-sm">
               Low SOC band &lt; {socThreshold}%
             </span>
             {vis.immobilisationFleetDisabled && (
-              <span className="rounded-md bg-red-100 text-red-900 border border-red-200 px-2 py-0.5">
+              <span className="rounded-full bg-red-100 text-red-900 border border-red-200 px-2.5 py-0.5">
                 Immobilisation disabled fleet-wide
               </span>
             )}
             {vis.geofenceAlertsEnabled && (
-              <span className="rounded-md bg-white/70 border border-current/20 px-2 py-0.5">
+              <span className="rounded-full bg-white/80 border border-teal-200/90 px-2.5 py-0.5 shadow-sm">
                 Geofence alerts armed
               </span>
             )}
