@@ -114,7 +114,23 @@ export function Dashboard() {
         </p>
         <p className="text-sm mt-1 text-amber-900/90">{error}</p>
         <p className="text-xs mt-2 text-amber-800/80">
-          Start the API: <code className="font-mono text-teal-800">cd backend && npm run dev</code>
+          {import.meta.env.DEV ? (
+            <>
+              Start the API:{" "}
+              <code className="font-mono text-teal-800">cd backend && npm run dev</code>
+            </>
+          ) : import.meta.env.VITE_API_URL ? (
+            <>
+              Check that the API is up, <code className="font-mono text-teal-800">VITE_API_URL</code> matches your
+              Render URL, and Render has <code className="font-mono text-teal-800">CORS_ORIGINS</code> set to this
+              site&apos;s origin.
+            </>
+          ) : (
+            <>
+              Set <code className="font-mono text-teal-800">VITE_API_URL</code> in Vercel environment variables to
+              your Render API URL (HTTPS), then redeploy.
+            </>
+          )}
         </p>
       </div>
     );

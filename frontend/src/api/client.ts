@@ -8,9 +8,17 @@ import type {
   VehicleLiveTelemetry,
 } from "../types";
 
-const base = import.meta.env.DEV ? "" : (import.meta.env.VITE_API_URL ?? "http://localhost:4000");
+/** Dev: Vite proxy. Prod: must set VITE_API_URL (HTTPS Render URL); never default to http://localhost on HTTPS — mixed content blocks it. */
+const base = import.meta.env.DEV
+  ? ""
+  : (import.meta.env.VITE_API_URL as string | undefined)?.trim().replace(/\/$/, "") ?? "";
 
 async function json<T>(path: string, init?: RequestInit): Promise<T> {
+  if (!import.meta.env.DEV && !base) {
+    throw new Error(
+      "VITE_API_URL is not set. In Vercel → Project → Settings → Environment Variables, add VITE_API_URL with your Render API origin (e.g. https://your-api.onrender.com), then redeploy.",
+    );
+  }
   const res = await fetch(`${base}${path}`, {
     ...init,
     headers: {
